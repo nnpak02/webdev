@@ -1,35 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Drone Commander</title>
 </head>
-
 <body>
-    <h1>Drone Commander</h1>
+    <div class="container">
+        <nav>
+            <header>
+                <h1 class="title-effect">DRONE</h1>
+            </header>
+            <button onclick="showSection('config')">VIEW CONFIG</button>
+            <button onclick="showSection('logging')">TEMP LOG FORM</button>
+            <button onclick="showSection('status')">VIEW LOG</button>
+        </nav>
 
-    <div id="config"></div>
+        <main>
+            <div id="config" class="section">
+                
+            </div>
 
-    <div id="logging">
+            <div id="logging" class="section">
+                <form id="my-form" method="post">
+                    <label for="temperature">Temperature</label>
+                    <input type="text" name="temperature" id="temperature" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
 
-
-        <form id="my-form" method="post">
-            <label for="temperature">temperature</label>
-            <input type="text" name="temperature" id="temperature" value="25">
-            <button type="submit">Submit Temperature</button>
-        </form>
-
+            <div id="status" class="section">
+                <div id="logs_list"></div>
+            </div>
+        </main>
     </div>
-    
-    
-    <div id="status"></div>
 
-    <div id="logs_list"></div>
+    <script src="main.js"></script>
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+            if (sectionId === 'status') {
+                loadLogs();
+            }
+        }
 
-    <script src = main.js></script>
+        async function loadLogs() {
+            const logs = await getAllLogs();
+            displayLogsTable(logs);
+        }
+    </script>
 </body>
-
 </html>
